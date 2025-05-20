@@ -15,7 +15,7 @@ const auth = new google.auth.GoogleAuth({
 const sheets = google.sheets({ version: "v4", auth });
 
 // Підключає Express — міні вебсервер
-const express = require("express"); 
+const express = require("express");
 const app = express();
 
 // Створює маршрут: при заході на головну сторінку ("GET /") відповідає текстом
