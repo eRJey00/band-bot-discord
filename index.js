@@ -14,6 +14,16 @@ const auth = new google.auth.GoogleAuth({
 });
 const sheets = google.sheets({ version: "v4", auth });
 
+// Підключає Express — міні вебсервер
+const express = require("express"); 
+const app = express();
+
+// Створює маршрут: при заході на головну сторінку ("GET /") відповідає текстом
+app.get("/", (req, res) => res.send("Bot is alive!"));
+
+// Запускає сервер на вказаному порту
+app.listen(process.env.PORT || 3000);
+
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
 });
