@@ -61,7 +61,13 @@ const questOptions = [
   } catch (error) {
     console.error("❌ Помилка при очищенні старих команд:", error);
   }
+  const globalCommands = await rest.get(Routes.applicationCommands(CLIENT_ID));
+  console.log(
+    "🌐 Глобальні команди:",
+    globalCommands.map((c) => c.name)
+  );
 
+  // основа коду
   try {
     await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), {
       body: commands.map((command) => command.toJSON()),
