@@ -50,22 +50,19 @@ const questOptions = [
 
   const rest = new REST({ version: "10" }).setToken(TOKEN);
 
-  const globalCommands = await rest.get(Routes.applicationCommands(CLIENT_ID));
-  console.log(
-    "🌐 Глобальні команди:",
-    globalCommands.map((c) => c.name)
-  );
-
   // 🔴 Очистка старих команд
-  try {
-    const existingCommands = await rest.get(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID));
+  // Глобальні
+  const globalCommands = await rest.get(Routes.applicationCommands(CLIENT_ID));
+  for (const command of globalCommands) {
+    await rest.delete(Routes.applicationCommand(CLIENT_ID, command.id));
+    console.log(`🗑 Видалено глобальну команду: ${command.name}`);
+  }
 
-    for (const command of existingCommands) {
-      await rest.delete(Routes.applicationGuildCommand(CLIENT_ID, GUILD_ID, command.id));
-      console.log(`🗑 Видалено команду: ${command.name}`);
-    }
-  } catch (error) {
-    console.error("❌ Помилка при очищенні старих команд:", error);
+  // Гільдійні
+  const guildCommands = await rest.get(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID));
+  for (const command of guildCommands) {
+    await rest.delete(Routes.applicationGuildCommand(CLIENT_ID, GUILD_ID, command.id));
+    console.log(`🗑 Видалено гільдійну команду: ${command.name}`);
   }
 
   // основа коду
