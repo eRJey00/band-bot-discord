@@ -49,6 +49,19 @@ const questOptions = [
   ];
 
   const rest = new REST({ version: "10" }).setToken(TOKEN);
+
+  // 🔴 Очистка старих команд
+  try {
+    const existingCommands = await rest.get(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID));
+
+    for (const command of existingCommands) {
+      await rest.delete(Routes.applicationGuildCommand(CLIENT_ID, GUILD_ID, command.id));
+      console.log(`🗑 Видалено команду: ${command.name}`);
+    }
+  } catch (error) {
+    console.error("❌ Помилка при очищенні старих команд:", error);
+  }
+
   try {
     await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), {
       body: commands.map((command) => command.toJSON()),
