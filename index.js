@@ -89,15 +89,15 @@ client.on("interactionCreate", async (interaction) => {
 
       if (interaction.commandName === "finish") {
         const pres = (interaction.options.getString("pres") || "")
-          .split(",")
+          .split("/[s,]+/")
           .map((u) => u.trim())
           .filter(Boolean);
         const afk = (interaction.options.getString("afk") || "")
-          .split(",")
+          .split("/[s,]+/")
           .map((u) => u.trim())
           .filter(Boolean);
         const abs = (interaction.options.getString("abs") || "")
-          .split(",")
+          .split("/[s,]+/")
           .map((u) => u.trim())
           .filter(Boolean);
 
